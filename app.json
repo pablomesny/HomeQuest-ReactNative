@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "HomeQuest",
+    "slug": "HomeQuest",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/app-icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splashScreen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptative-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.homequest"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c730a333-a041-4b61-b172-af93a3033054"
+      }
+    }
+  }
+}
