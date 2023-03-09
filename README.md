@@ -11,4 +11,4 @@ Link del diseño en figma: https://www.figma.com/file/i0fFeRqJAdCgDluTDkGkZ9/Hom
 
 Link al repositorio del backend a implementar: https://github.com/pablomesny/HomeQuest-NodeJS
 
-Tecnologías usadas: React Native, Expo.
+Tecnologías utilizadas: React Native, Expo.
