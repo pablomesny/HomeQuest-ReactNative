@@ -60,7 +60,7 @@ export const ProfileScreen = () => {
           </Pressable>
         )}
         <Text style={styles.nameText}>
-          {userCredentials.firstName} {userCredentials.lastName}
+          {userCredentials.user.firstName} {userCredentials.user.lastName}
         </Text>
         <View style={styles.shadowContainer}>
           <View style={styles.middleContainer}>

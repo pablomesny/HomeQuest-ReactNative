@@ -28,7 +28,7 @@ export const MenuScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <SimpleHeader title={"Menú"} />
       <ScrollView>
-        {!userCredentials.email ? (
+        {!userCredentials.user.email ? (
           <HeaderMenuUnregistered />
         ) : (
           <View style={styles.profileContainer}>
@@ -37,7 +37,7 @@ export const MenuScreen = ({ navigation }) => {
               source={require("../../assets/no-avatar.png")}
             />
             <View style={styles.nameContainer}>
-              <Text style={styles.nameText}>{userCredentials.firstName} {userCredentials.lastName}</Text>
+              <Text style={styles.nameText}>{userCredentials.user.firstName} {userCredentials.user.lastName}</Text>
               <Pressable onPress={() => navigation.navigate("Profile")}>
                 <Text style={styles.editText}>Editar perfil</Text>
               </Pressable>

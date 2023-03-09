@@ -65,7 +65,7 @@ export const MessageScreen = () => {
     <View style={[styles.container, isRead && styles.messageRead]}>
       <SimpleHeader title={"Mensajes"} />
 
-      {!userCredentials.email ? (
+      {!userCredentials.user.email ? (
         <UnregisteredMessage text={"enviar un mensaje"} screen={'Mensajes'}/>
       ) : (
         //     <FlatList

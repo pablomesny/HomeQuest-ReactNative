@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
 import { SettingsHeader } from '../components/layout';
+import { UserCredentialsContext } from '../context/user-credentials-context/UserCredentialsContext';
 //TODO ADD IMAGE PICKER
 
 export const ProfileAndSettings = ({ navigation }) => {
+  const { userCredentials } = useContext(UserCredentialsContext);
+
   return (
     <View style={styles.container}>
       <SettingsHeader navigation={navigation} title={'Perfil y configuración'}/>
@@ -25,7 +28,7 @@ export const ProfileAndSettings = ({ navigation }) => {
         </View>
         <View style={styles.fullNameContainer}>
           <Text style={styles.fullNameBlackText}>Nombre Completo</Text>
-          <Text style={styles.fullNameGrayText}>Oscar Ardila</Text>
+          <Text style={styles.fullNameGrayText}>{userCredentials.user.firstName} {userCredentials.user.lastName}</Text>
 
         </View>
     </View>
