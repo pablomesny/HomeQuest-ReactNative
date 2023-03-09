@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
 import { ProfileHeader } from "../components/layout";
 import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
-import { uploadPostsImages, uploadProfileImage } from "../firebase/firebase";
 import { pickImageAsync } from "../helpers";
 import { postAvatar } from "../services/postAvatar";
 

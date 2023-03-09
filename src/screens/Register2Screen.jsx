@@ -37,7 +37,7 @@ export const Register2Screen = ({ navigation }) => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await endpoint.post('api/users', {
+      const response = await endpoint.post('/users', {
         email,
         password,
         firstName: firstName,

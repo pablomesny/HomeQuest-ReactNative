@@ -1,16 +1,8 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useContext, useState } from "react";
 import { ErrorMessage, GreenButton } from "../components";
-import axios from 'axios'
 import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
 import { endpoint } from "../services/endpoint";
 
@@ -36,7 +28,7 @@ export const LoginScreen = ({ navigation }) => {
     try {
       setLoading(true)
       const response = await endpoint.post(
-        'api/auth',
+        '/auth',
         {
           email: inputs.email,
           password: inputs.password,
