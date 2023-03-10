@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-nativ
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useContext, useState } from "react";
-import { ErrorMessage, GreenButton } from "../components";
+import { ErrorMessage, GreenButton, Loader } from "../components";
 import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
 import { endpoint } from "../services/endpoint";
 
@@ -10,7 +10,7 @@ export const LoginScreen = ({ navigation }) => {
   const { userCredentials, handleUserCredentials } = useContext(UserCredentialsContext)
   const [secured, setSecured] = useState(true);
   const [inputs, setInputs] = useState({email: '', password: ''})
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [isError, setIsError] = useState(false)
 
   const handleChange = (name, value) => {
@@ -46,61 +46,73 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAwareScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-    <View style={styles.container}>
-      <AntDesign
-        name="arrowleft"
-        size={24}
-        color="black"
-        style={styles.arrow}
-        onPress={() => navigation.goBack()}
-      />
 
-      <Image style={styles.logo} source={require("../../assets/logo.png")} />
+      { 
+        loading &&
+          <Loader />
+      }
 
-      <Text style={styles.title}>Bienvenido a Home Quest!</Text>
-
-      <Text style={styles.subtitle}>Ingresar con mi E-Mail</Text>
-
-      <View style={styles.inputs}>
-        <TextInput
-          style={[styles.emailInput, styles.textInputs]}
-          variant="outlined"
-          placeholder="Ingresa tu E-mail"
-          placeholderTextColor={"#979797"}
-          inputContainerStyle={{ backgroundColor: "#E4E4E4" }}
-          keyboardType='email-address'
-          value={inputs.email}
-          onChangeText={(value) => handleChange('email', value)}
-        />
-
-        <View style={styles.passwordInputView}>
-          <TextInput
-            style={[styles.passwordInput, styles.textInputs]}
-            secureTextEntry={secured}
-            autoCapitalize="none"
-            autoComplete="off"
-            autoCorrect={false}
-            placeholder="Ingresa tu contraseña"
-            placeholderTextColor={"#979797"}
-            value={inputs.password}
-            onChangeText={(value) =>  handleChange('password', value)}
-          />
-          <Ionicons
-            style={styles.passwordInputIcon}
-            name={secured ? "eye-outline" : "eye-off-outline"}
+      {
+        !loading &&
+          <>
+          <View style={styles.container}>
+          <AntDesign
+            name="arrowleft"
             size={24}
             color="black"
-            onPress={() => setSecured((prev) => !prev)}
+            style={styles.arrow}
+            onPress={() => navigation.goBack()}
           />
-        </View>
 
-        <Pressable style={styles.button} onPress={handleLogin}>
-          <GreenButton text={!loading ? 'Aceptar' : 'Enviando...'} />
-        </Pressable>
-      </View>
-    </View>
-    {/* MODAL */}
-    <ErrorMessage isVisible={isError} handleModalVisibility={() => handleErrorModal(navigation)}/>
+          <Image style={styles.logo} source={require("../../assets/logo.png")} />
+
+          <Text style={styles.title}>Bienvenido a Home Quest!</Text>
+
+          <Text style={styles.subtitle}>Ingresar con mi E-Mail</Text>
+
+          <View style={styles.inputs}>
+            <TextInput
+              style={[styles.emailInput, styles.textInputs]}
+              variant="outlined"
+              placeholder="Ingresa tu E-mail"
+              placeholderTextColor={"#979797"}
+              inputContainerStyle={{ backgroundColor: "#E4E4E4" }}
+              keyboardType='email-address'
+              value={inputs.email}
+              onChangeText={(value) => handleChange('email', value)}
+            />
+
+          <View style={styles.passwordInputView}>
+              <TextInput
+                style={[styles.passwordInput, styles.textInputs]}
+                secureTextEntry={secured}
+                autoCapitalize="none"
+                autoComplete="off"
+                autoCorrect={false}
+                placeholder="Ingresa tu contraseña"
+                placeholderTextColor={"#979797"}
+                value={inputs.password}
+                onChangeText={(value) =>  handleChange('password', value)}
+              />
+              <Ionicons
+                style={styles.passwordInputIcon}
+                name={secured ? "eye-outline" : "eye-off-outline"}
+                size={24}
+                color="black"
+                onPress={() => setSecured((prev) => !prev)}
+              />
+                </View>
+
+                  <Pressable style={styles.button} onPress={handleLogin}>
+                    <GreenButton text={!loading ? 'Aceptar' : 'Enviando...'} />
+                  </Pressable>
+                </View>
+            </View>
+            <ErrorMessage isVisible={isError} handleModalVisibility={() => handleErrorModal(navigation)}/>
+          </>
+      }
+
+      
     </KeyboardAwareScrollView>
   );
 };
