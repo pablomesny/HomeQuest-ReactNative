@@ -42,7 +42,7 @@ export const FavouritesScreen = () => {
     <View style={styles.container}>
       <SimpleHeader title={"Favoritos"} />
 
-      {!userCredentials.user.email ? (
+      {!userCredentials.user ? (
         <UnregisteredMessage text={"guardar favoritos"} screen={'Favoritos'}/>
       ) : userFavourites.length > 1 ? (
         <FlatList

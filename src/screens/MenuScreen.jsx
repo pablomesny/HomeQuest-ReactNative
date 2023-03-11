@@ -28,7 +28,7 @@ export const MenuScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <SimpleHeader title={"Menú"} />
       <ScrollView>
-        {!userCredentials.user.email ? (
+        {!userCredentials.user ? (
           <HeaderMenuUnregistered />
         ) : (
           <View style={styles.profileContainer}>
