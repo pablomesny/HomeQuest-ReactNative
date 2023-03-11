@@ -4,14 +4,13 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { GreenButton } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RegisterCompleteModal } from "../components/modal";
 import { useModal } from "../hooks";
-import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/auth-context/AuthContext";
 import { ErrorMessage } from "../components/modal/ErrorMessage";
@@ -48,13 +47,13 @@ export const Register2Screen = ({ route, navigation }) => {
           'Content-Type': 'application/json'
         }
       });
-      login( response.user );
+      login( response.data.user );
       setIsLoading(false);
       handleToggleModal();
     } catch (error) {
       setIsLoading(false);
-      console.log(error.response.data)
-      setIsError(true)
+      console.log(error.response.data);
+      setIsError(true);
     }
   };
 
