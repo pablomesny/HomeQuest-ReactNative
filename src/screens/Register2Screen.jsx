@@ -18,10 +18,10 @@ import { ErrorMessage } from "../components/modal/ErrorMessage";
 import { endpoint } from "../services/endpoint";
 
 // METI EL MODAL, PERO DESPUES TERMINALO DE CONFIGURAR BIEN
-export const Register2Screen = ({ navigation }) => {
-  const { login, authData } = useContext(AuthContext);
+export const Register2Screen = ({ route, navigation }) => {
+  const { login } = useContext(AuthContext);
   const { isModalOpen, handleToggleModal } = useModal();
-  const [ formData, setFormData ] = useState({ ...authData });
+  const [ formData, setFormData ] = useState( route.params );
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -41,8 +41,6 @@ export const Register2Screen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-
-    login( formData );
 
     try {
       const response = await endpoint.post( '/users', JSON.stringify( formData ), {

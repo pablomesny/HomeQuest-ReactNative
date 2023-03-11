@@ -6,16 +6,14 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { GreenButton } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { AuthContext } from "../context/auth-context/AuthContext";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const RegisterScreen = ({ navigation }) => {
-  const { login, authData } = useContext(AuthContext)
   const [secured, setSecured] = useState(true);
   const [securedConfirm, setSecuredConfirm] = useState(true);
   const [formData, setFormData] = useState({});
@@ -67,10 +65,7 @@ export const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    const { confirmPassword: passwordRepeated, ...rest } = formData;
-    login(rest);
-
-    navigation.navigate("Register2Screen");
+    navigation.navigate("Register2Screen", { email, password});
   }
 
   return (
