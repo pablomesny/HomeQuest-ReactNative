@@ -19,15 +19,20 @@ import { endpoint } from "../services/endpoint";
 
 // METI EL MODAL, PERO DESPUES TERMINALO DE CONFIGURAR BIEN
 export const Register2Screen = ({ navigation }) => {
+  const { login, authData } = useContext(AuthContext);
   const { isModalOpen, handleToggleModal } = useModal();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [ formData, setFormData ] = useState({ ...authData });
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false)
-  const { authData } = useContext(AuthContext);
+  const [isError, setIsError] = useState(false);
 
-  const email = authData.email;
-  const password = authData.password;
+  const { firstName, lastName } = formData;
+
+  const handleInputChange = ( name, value ) => {
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
 
   const handleErrorModal = (navigation) => {
     setIsError(false)
@@ -36,14 +41,16 @@ export const Register2Screen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
+    login( formData );
+
     try {
-      const response = await endpoint.post('/users', {
-        email,
-        password,
-        firstName: firstName,
-        lastName: lastName
-      })
-      console.log(response)
+      const response = await endpoint.post( '/users', JSON.stringify( formData ), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      login( response.user );
       setIsLoading(false);
       handleToggleModal();
     } catch (error) {
@@ -72,18 +79,16 @@ export const Register2Screen = ({ navigation }) => {
             style={[styles.emailInput, styles.textInputs]}
             placeholder="Ingresá tu Nombre"
             placeholderTextColor="#979797"
-            onChangeText={setFirstName}
-            //onEndEditing={(e) => console.log(e.nativeEvent.text)}
-            value={firstName}
+            onChangeText={ e => handleInputChange( 'firstName', e ) }
+            value={ firstName }
           />
 
           <TextInput
             style={[styles.emailInput, styles.textInputs, { marginTop: 20 }]}
             placeholder="Ingresá tu Apellido"
             placeholderTextColor="#979797"
-            //onEndEditing={(e) => console.log(e.nativeEvent.text)}
-            onChangeText={setLastName}
-            value={lastName}
+            onChangeText={ e => handleInputChange( 'lastName', e ) }
+            value={ lastName }
           />
 
           <View style={styles.separator} />
