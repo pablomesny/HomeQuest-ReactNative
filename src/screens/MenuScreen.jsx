@@ -10,17 +10,17 @@ import {
 import { SimpleHeader } from "../components/layout";
 import { LogOutDeleteModal, LanguageModal, AboutUsModal } from "../components/modal";
 import { HeaderMenuUnregistered } from "../components/unregistered/HeaderMenuUnregistered";
-import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../context/auth-context/AuthContext";
 import { useAboutUsModal, useLanguageModal, useLogOutModal } from "../hooks";
 
 export const MenuScreen = ({ navigation }) => {
   const { isLogOutModalOpen, handleToggleLogOutModal } = useLogOutModal();
   const { isLanguageModalOpen, handleToggleLanguageModal } = useLanguageModal();
   const { isAboutUsModalOpen, handleToggleAboutUsModal } = useAboutUsModal();
-  const { userCredentials, handleUserCredentials } = useContext(UserCredentialsContext);
+  const { authData, handleauthData } = useContext(AuthContext);
   
   const handleLogOut = () => {
-    handleUserCredentials({})
+    handleauthData({})
     handleToggleLogOutModal()
   }
 
@@ -28,7 +28,7 @@ export const MenuScreen = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <SimpleHeader title={"Menú"} />
       <ScrollView>
-        {!userCredentials.user ? (
+        {!authData.user ? (
           <HeaderMenuUnregistered />
         ) : (
           <View style={styles.profileContainer}>
@@ -37,7 +37,7 @@ export const MenuScreen = ({ navigation }) => {
               source={require("../../assets/no-avatar.png")}
             />
             <View style={styles.nameContainer}>
-              <Text style={styles.nameText}>{userCredentials.user.firstName} {userCredentials.user.lastName}</Text>
+              <Text style={styles.nameText}>{authData.user.firstName} {authData.user.lastName}</Text>
               <Pressable onPress={() => navigation.navigate("Profile")}>
                 <Text style={styles.editText}>Editar perfil</Text>
               </Pressable>
@@ -102,7 +102,7 @@ export const MenuScreen = ({ navigation }) => {
             </Text>
           </Pressable>
 
-          {userCredentials.email ? (
+          {authData.email ? (
             <Pressable
               style={[styles.optionsSubContainer, { borderBottomWidth: 0 }]}
               onPress={handleToggleLogOutModal}

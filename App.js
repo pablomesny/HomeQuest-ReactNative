@@ -1,6 +1,6 @@
 import * as SplashScreen from "expo-splash-screen";
 import MainStack from "./navigation/MainStack";
-import { UserCredentialsProvider } from "./src/context/user-credentials-context/UserCredentialsContext";
+import { AuthProvider } from "./src/context/auth-context/AuthContext";
 
 // TODO: Resize splash screen
 
@@ -9,8 +9,8 @@ export default function App() {
   setTimeout(SplashScreen.hideAsync, 2000);
 
   return (
-    <UserCredentialsProvider>
+    <AuthProvider>
       <MainStack />
-    </UserCredentialsProvider>
+    </AuthProvider>
   );
 }

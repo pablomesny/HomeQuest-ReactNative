@@ -4,7 +4,7 @@ import {View, StyleSheet, Text, TextInput, Pressable, KeyboardAvoidingView} from
 import { GreenButton } from '../components';
 import { IconHeader } from '../components/layout';
 import { ContactAgencyModal } from '../components/modal/';
-import { UserCredentialsContext } from '../context/user-credentials-context/UserCredentialsContext';
+import { AuthContext } from '../context/auth-context/AuthContext';
 import { useModal } from '../hooks'
 
 const initialValues = {

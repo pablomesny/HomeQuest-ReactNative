@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
 import { SettingsHeader } from '../components/layout';
-import { UserCredentialsContext } from '../context/user-credentials-context/UserCredentialsContext';
+import { AuthContext } from '../context/auth-context/AuthContext';
 //TODO ADD IMAGE PICKER
 
 export const ProfileAndSettings = ({ navigation }) => {
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -28,7 +28,7 @@ export const ProfileAndSettings = ({ navigation }) => {
         </View>
         <View style={styles.fullNameContainer}>
           <Text style={styles.fullNameBlackText}>Nombre Completo</Text>
-          <Text style={styles.fullNameGrayText}>{userCredentials.user.firstName} {userCredentials.user.lastName}</Text>
+          <Text style={styles.fullNameGrayText}>{authData.user.firstName} {authData.user.lastName}</Text>
 
         </View>
     </View>

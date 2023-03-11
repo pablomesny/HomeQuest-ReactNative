@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useContext, useState } from 'react';
 import {View, StyleSheet, Image, Text, Pressable, TextInput} from 'react-native';
-import { UserCredentialsContext } from '../../context/user-credentials-context/UserCredentialsContext';
+import { AuthContext } from '../../context/auth-context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { GreenButton } from '../GreenButton';
 import axios from 'axios'
@@ -10,7 +10,7 @@ import { ErrorMessage } from '../modal';
 import { Loader } from '../Loader';
 
 export const UnregisteredMessage = ({ text, screen }) => {
-  const {userCredentials, handleUserCredentials} = useContext(UserCredentialsContext)
+  const {authData, handleauthData} = useContext(AuthContext)
   const navigation = useNavigation()
   const [secured, setSecured] = useState(true);
   const [inputs, setInputs] = useState({email: '', password: ''})
@@ -27,7 +27,7 @@ export const UnregisteredMessage = ({ text, screen }) => {
   }
 
 
-  console.log(userCredentials)
+  console.log(authData)
 
   const handleLogin = async () => {
     try {
@@ -41,7 +41,7 @@ export const UnregisteredMessage = ({ text, screen }) => {
         }
       );
       console.log(response.data)
-      handleUserCredentials(response.data.userData)
+      handleauthData(response.data.userData)
       // setLoading(false)
       handleToggleModal()
       navigation.navigate(screen)

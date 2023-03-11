@@ -11,14 +11,12 @@ import { GreenButton } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { RegisterCompleteModal } from "../components/modal";
 import { useModal } from "../hooks";
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/auth-context/AuthContext";
+import { useState } from "react";
 import { ErrorMessage } from "../components/modal/ErrorMessage";
 import { endpoint } from "../services/endpoint";
 
 // METI EL MODAL, PERO DESPUES TERMINALO DE CONFIGURAR BIEN
 export const Register2Screen = ({ route, navigation }) => {
-  const { login } = useContext(AuthContext);
   const { isModalOpen, handleToggleModal } = useModal();
   const [ formData, setFormData ] = useState( route.params );
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +45,6 @@ export const Register2Screen = ({ route, navigation }) => {
           'Content-Type': 'application/json'
         }
       });
-      login( response.data.user );
       setIsLoading(false);
       handleToggleModal();
     } catch (error) {

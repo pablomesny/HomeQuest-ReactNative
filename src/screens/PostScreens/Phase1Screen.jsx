@@ -5,14 +5,14 @@ import {
   SimpleHeader,
   UnregisteredMessage,
 } from "../../components";
-import { UserCredentialsContext } from "../../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../../context/auth-context/AuthContext";
 
 export const Phase1Screen = ({ navigation }) => {
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
-      {!userCredentials.user ? (
+      {!authData.user ? (
         <>
           <SimpleHeader title={"Publicar"} />
           <UnregisteredMessage text={"publicar una propiedad"} screen={'Phase1Screen'}/>

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { FavouriteCard } from "../components/FavouriteCard";
 import { SimpleHeader, UnregisteredMessage } from "../components/layout";
-import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../context/auth-context/AuthContext";
 
 const HighlightedCards = [
   { key: 1, component: <FavouriteCard /> },
@@ -13,9 +13,9 @@ const HighlightedCards = [
 ];
 
 export const FavouritesScreen = () => {
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
   const [userFavourites, setUserFavourites] = useState([]);
-  const userId = userCredentials.userId;
+  const userId = authData.userId;
 
   useEffect(() => {
     const response = async () => {
@@ -24,7 +24,7 @@ export const FavouritesScreen = () => {
           `https://home-quest-app.onrender.com/api/v1/users/${userId}/favorites`,
           {
             headers: {
-              Authorization: `Bearer ${userCredentials.token}`,
+              Authorization: `Bearer ${authData.token}`,
             },
           }
         )
@@ -36,13 +36,13 @@ export const FavouritesScreen = () => {
         .catch((err) => console.log(err));
     };
     response();
-  }, [userCredentials]);
+  }, [authData]);
 
   return (
     <View style={styles.container}>
       <SimpleHeader title={"Favoritos"} />
 
-      {!userCredentials.user ? (
+      {!authData.user ? (
         <UnregisteredMessage text={"guardar favoritos"} screen={'Favoritos'}/>
       ) : userFavourites.length > 1 ? (
         <FlatList

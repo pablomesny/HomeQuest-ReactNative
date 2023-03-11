@@ -10,10 +10,10 @@ import {
 import { useState } from "react";
 import { SimpleHeader, UnregisteredMessage } from "../components/layout";
 import { color } from "@rneui/base";
-import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../context/auth-context/AuthContext";
 
 export const MessageScreen = () => {
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
   const [isRead, setIsRead] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -65,7 +65,7 @@ export const MessageScreen = () => {
     <View style={[styles.container, isRead && styles.messageRead]}>
       <SimpleHeader title={"Mensajes"} />
 
-      {!userCredentials.user ? (
+      {!authData.user ? (
         <UnregisteredMessage text={"enviar un mensaje"} screen={'Mensajes'}/>
       ) : (
         //     <FlatList

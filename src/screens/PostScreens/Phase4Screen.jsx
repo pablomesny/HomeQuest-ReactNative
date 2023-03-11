@@ -15,19 +15,19 @@ import { useContext, useEffect, useState } from "react";
 import { PublishPostContext } from "../../context/publish-post-context/PublishPostContext";
 import { PublishProgressContext } from "../../context/publish-progress-context/PublishProgressContext";
 import { postProperty } from "../../services/postProperty";
-import { UserCredentialsContext } from "../../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../../context/auth-context/AuthContext";
 
 export const Phase4Screen = ({ navigation }) => {
   const { publishPost, handleResetPublish } = useContext(PublishPostContext);
   const { publishProgress, handleResetProgress } = useContext(
     PublishProgressContext
   );
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
   const { isModalOpen, handleToggleModal } = useModal();
   const [progress, setProgress] = useState(0);
   const [isError, setIsError] = useState(false);
 
-  console.log(userCredentials);
+  console.log(authData);
 
   useEffect(() => {
     const prog = Object.values(publishProgress).reduce(
@@ -50,10 +50,10 @@ export const Phase4Screen = ({ navigation }) => {
   };
 
   const handlePublish = async () => {
-    const data = { ...publishPost, userId: userCredentials.userId };
+    const data = { ...publishPost, userId: authData.userId };
     console.log(data);
     if (progress === 100) {
-      await postProperty(data, userCredentials.token, handleToggleModal, setIsError);
+      await postProperty(data, authData.token, handleToggleModal, setIsError);
       
     }
   };

@@ -3,12 +3,12 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
 import { ProfileHeader } from "../components/layout";
-import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../context/auth-context/AuthContext";
 import { pickImageAsync } from "../helpers";
 import { postAvatar } from "../services/postAvatar";
 
 export const ProfileScreen = () => {
-  const { userCredentials } = useContext(UserCredentialsContext);
+  const { authData } = useContext(AuthContext);
   const navigation = useNavigation();
   const [option, setOption] = useState("publish");
   const [userData, setUserData] = useState({});
@@ -25,7 +25,7 @@ export const ProfileScreen = () => {
       setProfilePhoto(url)
     }
     if (profilePhoto) {
-      postAvatar(profilePhoto, userCredentials.userId, userCredentials.token)
+      postAvatar(profilePhoto, authData.userId, authData.token)
     }
   };
 
@@ -33,10 +33,10 @@ export const ProfileScreen = () => {
     const response = async () => {
       await axios
         .get(
-          `https://home-quest-app.onrender.com/api/v1/users/${userCredentials.userId}/properties`,
+          `https://home-quest-app.onrender.com/api/v1/users/${authData.userId}/properties`,
           {
             headers: {
-              Authorization: `Bearer ${userCredentials.token}`,
+              Authorization: `Bearer ${authData.token}`,
             },
           }
         )
@@ -60,7 +60,7 @@ export const ProfileScreen = () => {
           </Pressable>
         )}
         <Text style={styles.nameText}>
-          {userCredentials.user.firstName} {userCredentials.user.lastName}
+          {authData.user.firstName} {authData.user.lastName}
         </Text>
         <View style={styles.shadowContainer}>
           <View style={styles.middleContainer}>

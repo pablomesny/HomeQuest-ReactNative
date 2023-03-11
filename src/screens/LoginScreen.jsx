@@ -3,11 +3,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useContext, useState } from "react";
 import { ErrorMessage, GreenButton, Loader } from "../components";
-import { UserCredentialsContext } from "../context/user-credentials-context/UserCredentialsContext";
+import { AuthContext } from "../context/auth-context/AuthContext";
 import { endpoint } from "../services/endpoint";
 
 export const LoginScreen = ({ navigation }) => {
-  const { userCredentials, handleUserCredentials } = useContext(UserCredentialsContext)
+  const { authData, handleauthData } = useContext(AuthContext)
   const [secured, setSecured] = useState(true);
   const [inputs, setInputs] = useState({email: '', password: ''})
   const [loading, setLoading] = useState(true)
@@ -22,7 +22,7 @@ export const LoginScreen = ({ navigation }) => {
     navigation.navigate('MainScreen')
   }
 
-  console.log(userCredentials)
+  console.log(authData)
 
   const handleLogin = async () => {
     try {
@@ -34,7 +34,7 @@ export const LoginScreen = ({ navigation }) => {
           password: inputs.password,
         }
       );
-      handleUserCredentials(response.data)
+      handleauthData(response.data)
       setLoading(false)
       navigation.navigate('HomeScreen')
     } catch (error) {
