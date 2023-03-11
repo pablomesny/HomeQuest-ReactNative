@@ -12,67 +12,63 @@ import { GreenButton } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { AuthContext } from "../context/auth-context/AuthContext";
 
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export const RegisterScreen = ({ navigation }) => {
   const { login, authData } = useContext(AuthContext)
   const [secured, setSecured] = useState(true);
   const [securedConfirm, setSecuredConfirm] = useState(true);
-  const [form, setForm] = useState({});
-  const [confirmError, setConfirmError] = useState(false);
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [formData, setFormData] = useState({});
 
-  const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const { email, password, confirmPassword } = formData;
 
-  const changed = (name, value) => {
-    setForm({ ...form, [name]: value });
+  const handleInputChange = (name, value) => {
+    setFormData({ 
+      ...formData, 
+      [name]: value 
+    });
   };
 
-  console.log(authData);
-  
-  const handleConfirmPassword = (value) => {
-    // setInput({ ...input, confirmPassword: value });
-    setForm({ ...form, confirmPassword: value });
-    if (form.password !== value) {
-      setConfirmError(true);
-    } else {
-      setConfirmError(false);
-    }
-  };
-
-  const validateEmail = (email) => {
+  const isEmailValid = (email) => {
     return EMAIL_REGEX.test(email);
   };
 
-  const validatePassword = (password, confirmPassword) => {
+  const isPasswordValid = (password, confirmPassword) => {
     return password === confirmPassword;
   };
 
-  const validateForm = (form) => {
-    return form.email && form.password && form.confirmPassword;
+  const isPasswordLengthValid = ( password, confirmPassword ) => {
+    return password.length >= 8 && confirmPassword.length >= 8;
+  }
+
+  const isFormValid = (form) => {
+    const { email, password, confirmPassword } = form;
+    return email && password && confirmPassword;
   };
 
   const handleNext = () => {
-    if (!validateEmail(form.email)) {
+    if (!isEmailValid(email)) {
       alert("Ingrese un correo electrónico válido");
       return;
     }
 
-    if (!validatePassword(form.password, form.confirmPassword)) {
+    if (!isPasswordValid(password, confirmPassword)) {
       alert("Las contraseñas no coinciden");
       return;
     }
 
-    if (!validateForm(form)) {
-      alert(
-        "Por favor, complete todos los campos antes de continuar"
-      );
+    if( !isPasswordLengthValid( password, confirmPassword ) ){
+      alert('La contraseña debe contener como mínimo 8 caracteres');
       return;
     }
 
-    login(form)
+    if (!isFormValid(formData)) {
+      alert("Por favor, complete todos los campos antes de continuar");
+      return;
+    }
+
+    const { confirmPassword: passwordRepeated, ...rest } = formData;
+    login(rest);
 
     navigation.navigate("Register2Screen");
   }
@@ -93,20 +89,20 @@ export const RegisterScreen = ({ navigation }) => {
 
         <View style={[styles.inputs]}>
           <TextInput
-            style={[styles.emailInput, styles.textInputs]}
+            style={[styles.emailInput, styles.textInput]}
             placeholder="Ingresa tu E-mail"
             placeholderTextColor="#979797"
             keyboardType="email-address"
-            onEndEditing={(e) => changed("email", e.nativeEvent.text)}
-            
+            onChangeText={(e) => handleInputChange("email", e)}
+            value={ email }
           />
-          <View style={[styles.passwordInput, styles.textInputs]}>
+          <View style={[styles.passwordInput, styles.textInput]}>
             <TextInput
               placeholder="Ingresa tu contraseña"
               placeholderTextColor="#979797"
               secureTextEntry={secured}
-              onEndEditing={(e) => changed("password", e.nativeEvent.text)}
-              
+              onChangeText={ (e) => handleInputChange("password", e)}
+              value={ password }
             />
 
             <Ionicons
@@ -118,19 +114,20 @@ export const RegisterScreen = ({ navigation }) => {
             />
           </View>
 
-          <View style={[styles.passwordInput, styles.textInputs]}>
+          <View style={[styles.passwordInput, styles.textInput]}>
             <TextInput
               placeholder="Volvé a ingresar tu contraseña"
               placeholderTextColor="#979797"
               secureTextEntry={securedConfirm}
-              onChangeText={(value) => handleConfirmPassword(value)}
+              onChangeText={ (e) => handleInputChange( 'confirmPassword', e ) }
+              value={ confirmPassword }
             />
             <Ionicons
               style={styles.passwordInputIcon}
               name={securedConfirm ? "eye-outline" : "eye-off-outline"}
               size={24}
               color="black"
-              onPress={() => setSecuredConfirm((prev) => !prev)}
+              onPress={ () => setSecuredConfirm((prev) => !prev) }
             />
           </View>
           <Pressable
@@ -172,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 32,
   },
-  textInputs: {
+  textInput: {
     fontSize: 16,
     fontWeight: "400",
     marginBottom: -10,
